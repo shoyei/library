@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Library</title>
+    <link href='index.css' type='text/css' rel='stylesheet'>
+
+</head>
+
+<body>
+    <h1>My Library</h1>
+    <div id='container'>
+
+    </div>
+    <div id='newButton'>
+        <button id='plusButton'>New Book</button>
+    </div>
+
+    <div id="overlay">
+        <div id="inputBook">
+            <button id="inputExit">X</button>
+            <h2>Add a new book</h2>
+            <label for='title'>Title</label><input id='inputTitle' name='title'>
+            <label for='author'>Author</label><input id='inputAuthor' name='author'>
+            <label for = 'pages'>Page Count</label><input id='inputPages' name='pages'>
+            <label for = ' read'>Read?</label><input type="checkbox" id='inputRead' name = 'read' value='true'>
+            <button id='enter'>+</button>
+        </div>
+    </div>
+
+    <script src='index.js' type='text/javascript'></script>
+</body>
+
+</html>
