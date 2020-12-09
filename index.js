@@ -1,6 +1,6 @@
 //DOM Selectors
 let mainDiv = document.querySelector('#container')
-let plusBtn = document.querySelector('#plusButton')
+let plusBtn = document.querySelector('#plusBtn')
 let overlay = document.querySelector('#overlay')
 let inputExit = document.querySelector('#inputExit')
 let inputTitle = document.getElementById('inputTitle')
@@ -16,25 +16,22 @@ let bookID = 0
 //Object array
 let myLibrary = [
     {
-        title: 'My Story',
-        author: 'John Smith',
-        pages: 500,
+        title: 'Ubik',
+        author: 'Philip K Dick',
+        pages: 202,
         read: true,
-
     },
     {
-        title: 'My Tale',
-        author: 'Jane Doe',
-        pages: 300,
-        read: false,
-
+        title: 'House of Suns',
+        author: 'Alastair Reynolds',
+        pages: 512,
+        read: true,
     },
     {
-        title: 'Sci-Fi',
-        author: 'Glaxt',
-        pages: 300,
-        read: false,
-
+        title: 'Foundation',
+        author: 'Isaac Asimov',
+        pages: 255,
+        read: true,
     }
 ]
 
@@ -62,39 +59,39 @@ function createBook(i) {
     let _delDiv = document.createElement('div');
     _delDiv.classList.add('delete')
     _delDiv.setAttribute('id', 'delete' + _currentBookID);
-    _delDiv.textContent = 'Delete';
+    _delDiv.textContent = 'X';
     _bookDiv.appendChild(_delDiv);
     _delDiv.addEventListener('click', removeBook)
 
     let _titleDiv = document.createElement('div');
     _titleDiv.classList.add('label');
-    _titleDiv.textContent = "Title";
+    _titleDiv.innerHTML = "Title <br><hr>";
 
     let _titleDetailDiv = document.createElement('div');
     _titleDetailDiv.classList.add('detail');
     _titleDetailDiv.textContent = `${myLibrary[_currentBookID].title}`;
-    _titleDiv.appendChild(_titleDetailDiv);
     _bookDiv.appendChild(_titleDiv);
+    _bookDiv.appendChild(_titleDetailDiv);
 
     let _authorDiv = document.createElement('div');
     _authorDiv.classList.add('label');
-    _authorDiv.textContent = "Author";
+    _authorDiv.innerHTML = "Author <br><hr>";
 
     let _authorDetailDiv = document.createElement('div');
     _authorDetailDiv.classList.add('detail');
     _authorDetailDiv.textContent = `${myLibrary[_currentBookID].author}`;
-    _authorDiv.appendChild(_authorDetailDiv);
     _bookDiv.appendChild(_authorDiv);
+    _bookDiv.appendChild(_authorDetailDiv);
 
     let _pagesDiv = document.createElement('div');
     _pagesDiv.classList.add('label');
-    _pagesDiv.textContent = "Page Count";
+    _pagesDiv.innerHTML = "Page Count<br><hr>";
 
     let _pagesDetailDiv = document.createElement('div');
     _pagesDetailDiv.classList.add('detail');
     _pagesDetailDiv.textContent = `${myLibrary[_currentBookID].pages}`;
-    _pagesDiv.appendChild(_pagesDetailDiv);
     _bookDiv.appendChild(_pagesDiv);
+    _bookDiv.appendChild(_pagesDetailDiv);
 
     let _readDiv = document.createElement('div');
     _readDiv.classList.add('label');
@@ -104,33 +101,26 @@ function createBook(i) {
     _readDetailDiv.classList.add('read');
 
     if (myLibrary[bookID].read === true) {
-        _readDetailDiv.innerHTML = '<input type="checkbox" id="readcheck" checked>';
+        _readDetailDiv.innerHTML = '<input type="checkbox" id="readcheck" checked><span class="checkmark"></span>';
     }
     if (myLibrary[bookID].read === false) {
-        _readDetailDiv.innerHTML = '<input type="checkbox" id="readcheck">';
+        _readDetailDiv.innerHTML = '<input type="checkbox" id="readcheck"><span class="checkmark"></span>';
     }
 
     _readDetailDiv.addEventListener('click', updateRead);
-    _readDiv.appendChild(_readDetailDiv);
     _bookDiv.appendChild(_readDiv);
+    _bookDiv.appendChild(_readDetailDiv);
     mainDiv.appendChild(_bookDiv);
     bookID += 1;
-    console.log(myLibrary);
-
 }
 
 function removeBook(e) {
-    // find index of book where the selected 'delete' button is located.
     let removeIndex = e.target.parentNode.getAttribute('id');
-    // remove that index from library
     myLibrary.splice(removeIndex, 1);
     bookID -= 1;
     applyID();
-    // remove book from frontend
     let _book = e.target.parentElement;
     mainDiv.removeChild(_book);
-
-    console.log(myLibrary);
 }
 
 //Populate page with pre-existing objects
@@ -143,23 +133,21 @@ function addToDisplay() {
 
 function newToDisplay() {
     createBook();
-    console.log(myLibrary);
 }
 
+//Acquire index of "read" checkbox's object and update
 function updateRead(e) {
-    let updateIndex = e.target.parentNode.parentNode.parentNode.getAttribute('id');
+    let updateIndex = e.target.parentNode.parentNode.getAttribute('id');
     if (myLibrary[updateIndex].read == true) {
         myLibrary[updateIndex].read = false;
-        console.log(myLibrary)
     }
     if (myLibrary[updateIndex].read == false) {
         myLibrary[updateIndex].read = true;
-        console.log(myLibrary)
     }
     else console.log('Error')
-    console.log(myLibrary)
 }
 
+//Resetting the object's ID property
 function applyID() {
     for (i = 0; i < myLibrary.length; i++) {
         myLibrary[i].bookID = i;
@@ -190,24 +178,23 @@ inputExit.addEventListener('click', function () {
     inputPages.value = "";
 }, false)
 
-// inputRead.addEventListener('change', function (){
-//     if (myLibrary[_currentBookID].read.value === false) {
-//     myLibrary[_currentBookID].read.value = true;
-//     }
-//     if (myLibrary[_currentBookID].read.value === true) {
-//         myLibrary[_currentBookID].read.value = false;
-//     }
-// })
 
 inputBtn.addEventListener('click', function () {
-    // if (inputTitle.value ==="") {
-
-    //     return;
-    // }
-    // if (inputAuthor.value === "") return;
+    if (inputTitle.value === "") {
+        return;
+    }
+    if (inputAuthor.value === "") {
+        return;
+    }
+    if (inputPages.value === "") {
+        return;
+    }
     addToLibrary(inputTitle.value, inputAuthor.value, inputPages.value, inputRead.checked);
     console.log(myLibrary);
     newToDisplay();
     overlayOff();
+    inputTitle.value = "";
+    inputAuthor.value = "";
+    inputPages.value = "";
 })
 
